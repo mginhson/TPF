@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+//hola
 int main(void)
 {
-    puts("hello");
-    printf("HOLA");
+    
 }
