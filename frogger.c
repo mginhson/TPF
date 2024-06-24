@@ -4,4 +4,5 @@
 int main(void)
 {
     puts("hello");
+    printf("HOLA");
 }
