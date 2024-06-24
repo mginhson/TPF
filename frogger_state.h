@@ -8,8 +8,13 @@
     celda. Por ejemplo, si solo un cuarto del tronco esta en una celda donde la ranita puede saltar, no deberia aparecer en la matriz, mas si graficamente
     se debe representar.
 */
-#include "game_logic.h"
 
+#define MAP_Y_MAX 16
+#define MAP_X_MAX 16
+typedef struct{
 
+}cell_t;
+
+extern cell_t state_matrix[MAP_Y_MAX][MAP_X_MAX];
 
 #endif
