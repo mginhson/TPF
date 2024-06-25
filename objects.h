@@ -45,9 +45,12 @@ typedef struct{
 */
 
 typedef struct{
-    uint32_t ranita :1;
-    uint32_t water  :1;
-    uint32_t car    :1;
+    uint8_t frog          :1;
+    uint8_t female_frog   :1;
+    uint8_t water         :1;
+    uint8_t object        :1;
+    uint8_t object_dis    :1;
+    uint8_t time          :1;
 }cell_t; 
 
 
