@@ -15,30 +15,10 @@
 #define MAP_X_MAX 16
 
 
-//Si se divide en dos structs distintas, cada modulo puede agarrar solo la parte que realmente le interesa (?checkear)
-
-//Objetos moviles en el mapa que sean amenazas
-typedef enum{
-    none = 0,
-    car,
-    log,
-    _objects_count,
-}map_threat_t;
 
 
 typedef struct{
-    map_threat_t threat;
-
-}cell_logic_t;
-
-typedef struct{
-
-
-}cell_graphic_t;
-
-typedef struct{
-    cell_logic_t logic;
-    cell_graphic_t graphic;    
+    
 }cell_t;
 
 extern cell_t state_matrix[MAP_Y_MAX][MAP_X_MAX];
