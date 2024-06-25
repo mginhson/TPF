@@ -15,18 +15,9 @@ typedef enum{
     car1,
     car2,
     car3,
-    object_kind_count,
     frog, 
-    tortle,
-    grass, 
+    turtle, 
     fly,
-    death,
-    track1,
-    track2,
-    bush,
-    water,
-    leaf,
-    bush_leaf,
     object_kind_count,
 }object_kind_t;
 
@@ -42,6 +33,7 @@ typedef enum{
 
 typedef struct{
     object_kind_t kind;
+    void *sprite;
     int32_t x,y; //position
     int32_t dx,dy; //velocity
     uint16_t dist_x,dist_y;

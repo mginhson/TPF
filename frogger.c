@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "frogger_state.h"
 //hola
-int main(void)
+int main(int argc, char **argv)
 {
-    access();
+    puts("frogger");
+    return 0;
 }
