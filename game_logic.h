@@ -7,7 +7,7 @@
 */
 
 #include "objects.h"
-
+#include "frogger_state.h"
 /*
     @BRIEF nextLogicTick:
     -Actualiza las posiciones de todos los objetos

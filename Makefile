@@ -12,13 +12,13 @@ pc: ${OBJ_FILES}
 frogger.o: frogger.c frogger_state.h 
 	${CC}  -o frogger.o -c frogger.c ${CFLAGS}
 
-frogger_state.o: frogger_state.c frogger_state.h game_logic.h objects.h
+frogger_state.o: frogger_state.c frogger_state.h objects.h
 	${CC} -o frogger_state.o -c frogger_state.c ${CFLAGS}
 
-game_logic.o: game_logic.c game_logic.h objects.h
+game_logic.o: game_logic.c game_logic.h objects.h frogger_state.h
 	${CC} -o game_logic.o -c game_logic.c ${CFLAGS} 
 
-objects.o:
+objects.o: objects.c objects.h
 	${CC} -o objects.o -c game_logic.c ${CFLAGS}
 
 clean:
