@@ -120,5 +120,6 @@ void analyzeRanita(void)
 
 void updateLogicMatrix(void)
 {
-        
+    static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
+    uint32_t i;
 }
