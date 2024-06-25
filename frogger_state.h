@@ -14,9 +14,11 @@
 #define CELLS_Y_MAX 16
 #define CELLS_X_MAX 16
 #define MAX_OBJECTS 64
-#define MAP_Y_PIXELS_MAX CELLS_Y_MAX*32
-#define MAP_X_PIXELS_MAX CELLS_X_MAX*32
-
+#define PIXELS_PER_CELL_X 32
+#define PIXELS_PER_CELL_Y 32
+#define MAP_Y_PIXELS_MAX CELLS_Y_MAX*PIXELS_PER_CELL_Y
+#define MAP_X_PIXELS_MAX CELLS_X_MAX*PIXELS_PER_CELL_X
+//Pixels per square
 
 //Se declara la matriz para que la lean todos los modulos que dependen de esto
 extern cell_t state_matrix[CELLS_Y_MAX][CELLS_X_MAX];

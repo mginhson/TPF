@@ -36,7 +36,7 @@ typedef struct{
     void *sprite;
     int32_t x,y; //position
     int32_t dx,dy; //velocity
-    uint16_t dist_x,dist_y;
+    uint16_t pixels_x,pixels_y;
 }object_t;
 /*
     BRIEF:  objectSize

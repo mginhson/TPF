@@ -103,7 +103,7 @@ void analyzeRanita(void)
         case no_movement:
             break;
     
-        case up:
+        case up:  
         case right:
         case left:
         case down:
@@ -114,10 +114,11 @@ void analyzeRanita(void)
             break;  
     }
 
+    
 
 }
 
 void updateLogicMatrix(void)
 {
-
+        
 }
