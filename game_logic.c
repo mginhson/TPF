@@ -4,7 +4,6 @@
 #include <stdint.h>
 
 //Aca existe current_objects[]
-extern object_t current_objects[MAX_OBJECTS]; //REDUNDANTE!!!
 
 static void updateObjects(void);
 static void updateMatrix(void);

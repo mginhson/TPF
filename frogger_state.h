@@ -15,9 +15,7 @@
 #define MAP_X_MAX 16
 #define MAX_OBJECTS 64
 
-typedef struct{
-    object_kind_t obj_kind;
-}cell_t;
+
 
 //Se declara la matriz para que la lean todos los modulos que dependen de esto
 extern cell_t state_matrix[MAP_Y_MAX][MAP_X_MAX];
@@ -25,7 +23,7 @@ extern object_t current_objects[MAX_OBJECTS];
 
 
 
-void access(void);
+void access(void);//DEBUG
 #endif
 
 
@@ -41,11 +39,11 @@ OPCION 1:
 
 OPCION 2:
         typedef struct {
-            char rana   :1;
-            char tronco :1;
-            char auto   :1;
-            char agua   :1;
-            char calle  :1;
+            char rana;
+            char tronco;
+            char auto;
+            char agua;
+            char calle;
         }estado_celda_t;        // Lo hago con chars para ocupar menos memoria total solo se necesita ver si == 0 o !=0
 
         estado_celda_t Matriz_Estados [16][16];

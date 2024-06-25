@@ -8,10 +8,29 @@
 
 typedef enum{
     none,
+    street,
     log,
-    car,
+    short_log,
+    long_log,
+    car1,
+    car2,
+    car3,
+    object_kind_count,
+    frog, 
+    tortle,
+    grass, 
+    fly,
+    death,
+    track1,
+    track2,
+    bush,
+    water,
+    leaf,
+    bush_leaf,
     object_kind_count,
 }object_kind_t;
+
+
 
 /*
   Todos los objetos son posicionados por sus coordenadas (x,y), las
@@ -23,8 +42,9 @@ typedef enum{
 
 typedef struct{
     object_kind_t kind;
-    uint16_t x,y; //position
-    uint16_t dx,dy; //velocity
+    int32_t x,y; //position
+    int32_t dx,dy; //velocity
+    uint16_t dist_x,dist_y;
 }object_t;
 /*
     BRIEF:  objectSize
