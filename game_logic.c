@@ -58,11 +58,11 @@ void analyzeObjects(void)
     for(i = 0; i < bound; ++i)
     {
         //If either is triggered, the object is OOB, and declared none (slot made available for the object creator to take)
-        if (current_objects[i].y < 0 || current_objects[i].y-current_objects[i].dist_y > MAP_Y_PIXELS_MAX)
+        if (current_objects[i].y < 0 || current_objects[i].y-current_objects[i].pixels_y > MAP_Y_PIXELS_MAX)
         {
             current_objects[i].kind = none;
         }
-        else if (current_objects[i].x > MAP_X_PIXELS_MAX || current_objects[i].x+current_objects[i].dist_y<0)
+        else if (current_objects[i].x > MAP_X_PIXELS_MAX || current_objects[i].x+current_objects[i].pixels_x<0)
         {
             current_objects[i].kind = none;
         }
