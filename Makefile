@@ -1,7 +1,7 @@
 CC := gcc
 ALLEGRO_LIB := -lallegro #INCLUIR ACA TODO ALLEGRO!!
 CFLAGS := -Wall -Wextra
-OBJ_FILES := frogger.o game_logic.o objects.o frogger_state.o
+OBJ_FILES := frogger.o game_logic.o objects.o frogger_state.o input.o
 EXECUTABLE_NAME := frogger
 
 all: pc #just an alias
@@ -15,11 +15,14 @@ frogger.o: frogger.c frogger_state.h
 frogger_state.o: frogger_state.c frogger_state.h objects.h
 	${CC} -o frogger_state.o -c frogger_state.c ${CFLAGS}
 
-game_logic.o: game_logic.c game_logic.h frogger_state.h objects.h
+game_logic.o: game_logic.c game_logic.h frogger_state.h objects.h input.h
 	${CC} -o game_logic.o -c game_logic.c ${CFLAGS} 
 
 objects.o: objects.c objects.h
 	${CC} -o objects.o -c objects.c ${CFLAGS}
+
+input.o: input_stub.c input.h #CURRENTLY A STUB!
+	${CC} -o input.o -c input_stub.c ${CFLAGS}
 
 clean:
 	rm -f ${OBJ_FILES} ${EXECUTABLE_NAME}

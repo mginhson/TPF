@@ -10,7 +10,7 @@ static void moveObjects(void);
 static void analyzeObjects(void);
 static void deleteObject(void);
 static int8_t addObject(object_t _obj);
-static void analyzeFrogAction(void);
+static void analyzeRanita(void);
 
 /*
     @BRIEF: nextLogicTick
@@ -85,4 +85,9 @@ int8_t addObject(object_t _obj)
     
     current_objects[i] = _obj; //bytewise copy
     return 0;
+}
+
+void analyzeRanita(void)
+{
+    //GET INPUT HERE!!
 }

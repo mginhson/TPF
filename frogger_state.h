@@ -24,6 +24,10 @@ extern object_t current_objects[MAX_OBJECTS];
 extern object_t ranita; //behaves different from the normal objects
 
 
+//INPUT HANDLERS
+typedef struct{}input_t;
+
+input_t getInput(void);
 
 #endif
 
