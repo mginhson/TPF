@@ -45,8 +45,10 @@ typedef struct{
 */
 
 typedef struct{
-    object_kind_t obj_kind;
-}cell_t;
+    uint32_t ranita :1;
+    uint32_t water  :1;
+    uint32_t car    :1;
+}cell_t; 
 
 
 

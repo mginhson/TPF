@@ -14,8 +14,8 @@
 #define CELLS_Y_MAX 16
 #define CELLS_X_MAX 16
 #define MAX_OBJECTS 64
-#define MAP_Y_PIXELS_MAX 1000
-#define MAP_X_PIXELS_MAX 1000
+#define MAP_Y_PIXELS_MAX CELLS_Y_MAX*32
+#define MAP_X_PIXELS_MAX CELLS_X_MAX*32
 
 
 //Se declara la matriz para que la lean todos los modulos que dependen de esto
@@ -24,10 +24,6 @@ extern object_t current_objects[MAX_OBJECTS];
 extern object_t ranita; //behaves different from the normal objects
 
 
-//INPUT HANDLERS
-typedef struct{}input_t;
-
-input_t getInput(void);
 
 #endif
 

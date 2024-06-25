@@ -4,6 +4,7 @@
 #include "game_logic.h"
 #include "objects.h"
 #include "frogger_state.h"
+#include "input.h"
 
 static void moveFrog(void);
 static void moveObjects(void);
@@ -11,16 +12,18 @@ static void analyzeObjects(void);
 static void deleteObject(void);
 static int8_t addObject(object_t _obj);
 static void analyzeRanita(void);
+static void updateLogicMatrix(void);
 
 /*
     @BRIEF: nextLogicTick
     -Move the frog (if needed)
-    -Move the objects 
+    -Move and/or update the objects 
     -Remove objects that went completely out of bounds
     -Create new objects
     -Analyze wether the frog died or won
     -If the frog won, setup and advance to the next level
-    -handle the control to the render stage
+    -If it neither died or won, update the logic matrix and handle control over to the render stage
+    
 */
 void nextLogicTick(void)
 {
@@ -87,7 +90,34 @@ int8_t addObject(object_t _obj)
     return 0;
 }
 
+/*
+    @BRIEF: analyzeRanita
+        Gets the ranita movement, updates it's position, and analyze if a collision
+        or win condition happened, and acts upon them
+*/
 void analyzeRanita(void)
 {
     //GET INPUT HERE!!
+    switch(getInput_stub())
+    {
+        case no_movement:
+            break;
+    
+        case up:
+        case right:
+        case left:
+        case down:
+            break;
+        
+        default:
+            puts("Received a broken input from getInput!");
+            break;  
+    }
+
+
+}
+
+void updateLogicMatrix(void)
+{
+
 }
