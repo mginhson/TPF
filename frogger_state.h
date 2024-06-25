@@ -22,12 +22,13 @@ typedef enum{
     none = 0,
     car,
     log,
-    _objects_count;
+    _objects_count,
 }map_threat_t;
 
+
 typedef struct{
-    
     map_threat_t threat;
+
 }cell_logic_t;
 
 typedef struct{
