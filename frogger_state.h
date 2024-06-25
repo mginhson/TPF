@@ -44,3 +44,28 @@ typedef struct{
 extern cell_t state_matrix[MAP_Y_MAX][MAP_X_MAX];
 
 #endif
+
+
+/*
+OPCIONES PARA DEFINIR LOS ESTADOS DE LAS CELDAS (BY S.PAPPALARDO)
+
+OPCION 1:
+        ESTADO DE LA CELDA COMO UN INT
+        PUEDE VALE 0 (RANA), 1 (TRONCO), 2 (AUTO), 3 (AGUA), 4 (CALLE), ETC.
+        SE CREA UNA MATRIZ DE 16x16 INTS Y CADA INT MUESTRA EL SU VALOR DEL 0 AL 4 MOSTRANDO QUÉ ES
+        int Matriz_Estados [16][16];
+
+
+OPCION 2:
+        typedef struct {
+            char rana;
+            char tronco;
+            char auto;
+            char agua;
+            char calle;
+        }estado_celda_t;        // Lo hago con chars para ocupar menos memoria total solo se necesita ver si == 0 o !=0
+
+        estado_celda_t Matriz_Estados [16][16];
+
+
+*/
