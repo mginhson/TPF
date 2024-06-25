@@ -31,7 +31,12 @@ typedef struct{
     Returns the memory size in bytes that needs to be allocated 
     to create a new object, the memory MUST be allocated by the caller!
 */
-uint32_t   objectSize(void);
+
+typedef struct{
+    object_kind_t obj_kind;
+}cell_t;
+
+
 
 /*
     BRIEF: objectCreate y objectDestroy
