@@ -21,7 +21,7 @@
 //Se declara la matriz para que la lean todos los modulos que dependen de esto
 extern cell_t state_matrix[CELLS_Y_MAX][CELLS_X_MAX];
 extern object_t current_objects[MAX_OBJECTS];
-
+extern object_t ranita; //behaves different from the normal objects
 
 
 

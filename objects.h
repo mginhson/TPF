@@ -15,7 +15,7 @@ typedef enum{
     car1,
     car2,
     car3,
-    frog, 
+    she_frog, 
     turtle, 
     fly,
     object_kind_count,

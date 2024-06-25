@@ -5,11 +5,11 @@
 #include "objects.h"
 #include "frogger_state.h"
 
-
+static void moveFrog(void);
 static void moveObjects(void);
 static void analyzeObjects(void);
 static void deleteObject(void);
-static int8_t addObject(object_kind_t _kind);
+static int8_t addObject(object_t _obj);
 static void analyzeFrogAction(void);
 
 /*
@@ -64,4 +64,25 @@ void analyzeObjects(void)
             current_objects[i].kind = none;
         }
     }
+}
+
+/*
+    @BRIEF: Copies the new object onto a free slot, returns 0 if succesful, -1 otherwise
+*/
+int8_t addObject(object_t _obj)
+{
+    static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
+    uint32_t i;
+    while(current_objects[i].kind != none && ++i<bound)
+    {
+        ;
+    }
+
+    if (i == bound) //there aren't free slots
+    {
+        return -1;
+    }
+    
+    current_objects[i] = _obj; //bytewise copy
+    return 0;
 }
