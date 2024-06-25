@@ -21,7 +21,11 @@ typedef struct{
 
 //Se declara la matriz para que la lean todos los modulos que dependen de esto
 extern cell_t state_matrix[MAP_Y_MAX][MAP_X_MAX];
-extern object_t * current_objects[MAX_OBJECTS];
+extern object_t current_objects[MAX_OBJECTS];
+
+
+
+void access(void);
 #endif
 
 
