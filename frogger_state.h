@@ -8,7 +8,7 @@
     celda. Por ejemplo, si solo un cuarto del tronco esta en una celda donde la ranita puede saltar, no deberia aparecer en la matriz, mas si graficamente
     se debe representar.
 */
-
+#include "objects.h"
 #include <stdint.h>
 
 #define MAP_Y_MAX 16
@@ -18,7 +18,7 @@
 
 
 typedef struct{
-    
+    object_kind_t obj_kind;
 }cell_t;
 
 extern cell_t state_matrix[MAP_Y_MAX][MAP_X_MAX];

@@ -1,6 +1,6 @@
 #ifndef OBJECTS_H
 #define OBJECTS_H
-
+#include <stdint.h>
 /*
     @BRIEF: Se definen los objetos posibles, analizados separadamente
     por la etapa de logica y renderizado
