@@ -41,11 +41,11 @@ OPCION 1:
 
 OPCION 2:
         typedef struct {
-            char rana;
-            char tronco;
-            char auto;
-            char agua;
-            char calle;
+            char rana   :1;
+            char tronco :1;
+            char auto   :1;
+            char agua   :1;
+            char calle  :1;
         }estado_celda_t;        // Lo hago con chars para ocupar menos memoria total solo se necesita ver si == 0 o !=0
 
         estado_celda_t Matriz_Estados [16][16];
