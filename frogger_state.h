@@ -11,19 +11,20 @@
 #include "objects.h"
 #include <stdint.h>
 
-#define MAP_Y_MAX 16
-#define MAP_X_MAX 16
+#define CELLS_Y_MAX 16
+#define CELLS_X_MAX 16
 #define MAX_OBJECTS 64
-
+#define MAP_Y_PIXELS_MAX 1000
+#define MAP_X_PIXELS_MAX 1000
 
 
 //Se declara la matriz para que la lean todos los modulos que dependen de esto
-extern cell_t state_matrix[MAP_Y_MAX][MAP_X_MAX];
+extern cell_t state_matrix[CELLS_Y_MAX][CELLS_X_MAX];
 extern object_t current_objects[MAX_OBJECTS];
 
 
 
-void access(void);//DEBUG
+
 #endif
 
 
