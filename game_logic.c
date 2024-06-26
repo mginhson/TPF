@@ -8,28 +8,36 @@
 #include "render.h"
 
 
-
-static void analyzeObjects(void);
-static void deleteObject(void);
-static int8_t addObject(object_t _obj);
+//STATIC FUNCTIONS
 static void analyzeRanita(void);
 static void updateLogicMatrix(void);
-static void advanceLevel(void);
+static void generateLevel(uint32_t _level);
+static void setLevelBackground(uint32_t _level);
 static void wonLevel(void);
 static uint32_t calculatePoints(void);
 
+
+
 //STATIC GLOBAL VARIABLES
 static uint32_t level;
+static const object_t road_lane_arquetype[][LANE_LENGTH * 3] = {
+    {[2]=car1,[5]=car2,[6]=car3},
+};
 
 
 
+/*
+    @BRIEF: initializeGameLogic
+        Initializes the module.
+        -Set level at 0
+        -Generate the first level
 
-
+*/
 
 void initializeGameLogic(void)
 {
     level = 0;
-    advanceLevel();
+    generateLevel(level);
     return;
 }
 
@@ -47,19 +55,18 @@ void initializeGameLogic(void)
 */
 void nextLogicTick(void)
 {
-    analyzeRanita();
-    analyzeObjects();
-    updateLogicMatrix();
-    render();
+    
 }
 
 /*
-    @BRIEF: Updates the score and calls advanceLevel. 
+    @BRIEF: wonLevel 
+    -Updates the score
+    -Advances to the next level
+    -Generates new level
 */
 static void wonLevel(void)
 {
 
-    advanceLevel();
 }
 
 /*
@@ -69,178 +76,58 @@ static void wonLevel(void)
     -Generates starting objects
     -Updates logic matrix based on new objects and ranita
     -Resets all level-bounded variables
+
 */
 
-static void advanceLevel(void)
+static void generateLevel(uint32_t _level)
 {
-    static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
+    static const uint32_t  bound = sizeof(lanes)/sizeof(*lanes); 
     uint32_t i;
+
+    setLevelBackground(_level);
     for (i = 0; i < bound; i++)
     {
-        current_objects[i].kind = none;
-    }
-    ranita.dx = 0;
-    ranita.dy = 0;
-    ranita.y = ranita.pixels_y;
-    ranita.x = CELLS_X_MAX*PIXELS_PER_CELL_X / 2;
-    updateLogicMatrix();
-}
-
-
-
-/*
-    @BRIEF: moveObjects
-        moves the current objects based on their speed (dx,dy) param 
-*/
-static void moveObjects(void)
-{
-    static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
-    uint32_t i;
-    for(i = 0; i < bound;i++)
-    {
-        current_objects[i].x += current_objects[i].dx;
-        current_objects[i].y += current_objects[i].dy;
-    }
-    return ;
-}
-
-/*
-    @BRIEF: analyzeObjects
-        if an object went out of bounds, delete it 
-*/
-static void analyzeObjects(void)
-{
-    static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
-    uint32_t i;
-
-    for(i = 0; i < bound; ++i)
-    {
-        //If either is triggered, the object is OOB, and declared none (slot made available for the object creator to take)
-        if (current_objects[i].y < 0 || current_objects[i].y-current_objects[i].pixels_y > MAP_Y_PIXELS_MAX)
+        switch(lanes[i].background)
         {
-            current_objects[i].kind = none;
-        }
-        else if (current_objects[i].x > MAP_X_PIXELS_MAX || current_objects[i].x+current_objects[i].pixels_x<0)
-        {
-            current_objects[i].kind = none;
-        }
-    }
-}
-
-/*
-    @BRIEF: Copies the new object onto a free slot, returns 0 if succesful, -1 otherwise
-*/
-static int8_t addObject(object_t _obj)
-{
-    static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
-    uint32_t i = 0;
-    while(current_objects[i].kind != none && ++i<bound)
-    {
-        ;
-    }
-
-    if (i == bound) //there aren't free slots
-    {
-        return -1;
-    }
-    
-    current_objects[i] = _obj; //bytewise copy
-    return 0;
-}
-
-/*
-    @BRIEF: analyzeRanita
-        Gets the ranita movement, updates it's position, and analyze if a collision
-        or win condition happened, and acts upon them
-*/
-static void analyzeRanita(void)
-{
-    //GET INPUT HERE!!
-    switch(getInput_stub())
-    {
-        case no_movement:
-            break;
-    
-        case up:  
-        case right:
-        case left:
-        case down:
-            break;
-        
-        default:
-            puts("Received a broken input from getInput!");
-            break;  
-    }
-
-    
-
-}
-
-static void updateLogicMatrix(void)
-{
-    static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
-    uint32_t i,j,mid_x,mid_y,cur_cell_x,cur_cell_y,cells_width;
-
-    
-    for (i = 0; i < bound; ++i)
-    {
-        
-        switch(current_objects[i].kind)
-        {
-            case none: 
-                break;
+            case water:
             
-            case log:
-            case short_log:
-            case long_log:
-            case car1:
-            case car2:
-            case car3:
-            case crocodile:
-            case snake:
-                /*
-                    Consigo pixel que denota el punto medio del objeto.
-                    Una vez con ese pixel, calculo en que parte de la matriz esta 
-                    dependiendo de cuantos pixeles ocupa cada celda
-                */ 
-                mid_x = current_objects[i].x + current_objects[i].pixels_x / 2;
-                mid_y = current_objects[i].y + current_objects[i].pixels_y / 2;
-                
-                cur_cell_x = mid_x / PIXELS_PER_CELL_X;
-                cur_cell_y = mid_y / PIXELS_PER_CELL_Y;
+            case road:
+            
+            case grass:
 
-                
-                //Ahora traduzco a celdas!!!
-
-                for (j=0;j<current_objects[i].cells_x ;++j)
-                {
-                    if(cur_cell_x+j < CELLS_X_MAX)
-                    {
-                        state_matrix[cur_cell_y][cur_cell_x+j].object = 1;
-                    }
-                }
-
-                for (j=0;j<current_objects[i].cells_y ;++j)
-                {
-                    if(cur_cell_y-j < CELLS_Y_MAX)
-                    {
-                        state_matrix[cur_cell_y-j][cur_cell_x].object = 1;
-                    }
-                }
-
-                
-
-            default:
-                printf("Unregistered .kind in updateLogicMatrix");
-                break;
+            case finish_line:
         }
     }
-
-    mid_x = ranita.x / PIXELS_PER_CELL_X;
-    mid_y = ranita.y / PIXELS_PER_CELL_Y;
-    state_matrix[mid_y][mid_x].frog = 1;
-
-    
     
 }
 
+
+
+
+
+    
+
+
+/*
+    @BRIEF: setLevelBackground 
+        Sets the background on every lane
+*/
+static void setLevelBackground(uint32_t _level)
+{
+    lanes[0].background = grass;
+    lanes[1].background = road;
+    lanes[2].background = road;
+    lanes[3].background = road;
+    lanes[4].background = road;
+    lanes[5].background = road;
+    lanes[6].background = road;
+    lanes[7].background = road;
+    lanes[8].background = road;
+    lanes[9].background = grass;
+    lanes[10].background = water;
+    lanes[11].background = water;
+    lanes[12].background = water;
+    lanes[13].background = water;
+    lanes[14].background = water;
+    lanes[15].background = finish_line;
+}

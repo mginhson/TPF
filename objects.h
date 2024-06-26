@@ -7,7 +7,7 @@
 */
 
 typedef enum{
-    none,
+    none = 0,
     log,
     short_log,
     long_log,
@@ -26,23 +26,20 @@ typedef enum{
     water,
     road,
     grass,
+    finish_line,
     _background_count,    
 }background_t;
 
 typedef struct{
     object_kind_t kind;
     void *sprite;
-    int32_t x,y; //position
-    int32_t dx,dy; //velocity
     uint16_t pixels_x,pixels_y; //What is seen
-    uint8_t cells_x,cells_y; //how many cells it occupies, is calculates based on pixels_x|y and PIXELS_PER_CELL
 }object_t;
 
 typedef struct{
-    object_t objects[64];
+    object_t * data;
     background_t background;
     double speed;
-    
 }lane_t;
 
 /*

@@ -12,6 +12,7 @@
 #include <stdint.h>
 
 #define LANES_COUNT 16
+#define LANE_LENGTH 16
 #define CELLS_Y_MAX 16
 #define CELLS_X_MAX 16
 #define MAX_OBJECTS 64
