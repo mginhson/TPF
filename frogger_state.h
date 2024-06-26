@@ -28,7 +28,7 @@ extern object_t current_objects[MAX_OBJECTS];
 extern lane_t lanes[LANES_COUNT];
 extern object_t ranita; //behaves different from the normal objects
 
-
+extern const char * background_t_string_names[];
 
 #endif
 

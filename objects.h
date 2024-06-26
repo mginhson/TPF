@@ -22,6 +22,7 @@ typedef enum{
     object_kind_count,
 }object_kind_t;
 
+
 typedef enum{
     water,
     road,
@@ -37,9 +38,10 @@ typedef struct{
 }object_t;
 
 typedef struct{
-    object_t * data;
+    object_kind_t * chosen_lane;
     background_t background;
     double speed;
+    int32_t index;
 }lane_t;
 
 /*

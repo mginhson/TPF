@@ -11,3 +11,4 @@ object_t  current_objects[MAX_OBJECTS];
 object_t ranita;
 lane_t lanes[LANES_COUNT];
 
+const char * background_t_string_names[]={"water","road","grass","finish_line"};

@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include "game_logic.h"
 #include "objects.h"
@@ -14,15 +15,32 @@ static void updateLogicMatrix(void);
 static void generateLevel(uint32_t _level);
 static void setLevelBackground(uint32_t _level);
 static void wonLevel(void);
+static void debugLanes(void);
 static uint32_t calculatePoints(void);
 
 
 
 //STATIC GLOBAL VARIABLES
+#define ARRSIZE(arr) ((uint32_t)sizeof((arr))/sizeof(*(arr)))
 static uint32_t level;
-static const object_t road_lane_arquetype[][LANE_LENGTH * 3] = {
+static const object_kind_t road_lane_arquetype[][LANE_LENGTH * 3] = {
+    {[2]=car1,[5]=car2,[6]=car3},
+    {[1]=car2},
+};
+
+static const object_kind_t water_lane_arquetype[][LANE_LENGTH * 3] = {
     {[2]=car1,[5]=car2,[6]=car3},
 };
+
+static const object_kind_t grass_lane_arquetype[][LANE_LENGTH * 3] = {
+    {[2]=car1,[5]=car2,[6]=car3},
+};
+
+static const object_kind_t finish_line_lane_arquetype[][LANE_LENGTH * 3] = {
+    {[2]=car1,[5]=car2,[6]=car3},
+};
+
+
 
 
 
@@ -37,7 +55,9 @@ static const object_t road_lane_arquetype[][LANE_LENGTH * 3] = {
 void initializeGameLogic(void)
 {
     level = 0;
+    srand(time(NULL));
     generateLevel(level);
+    debugLanes();
     return;
 }
 
@@ -82,7 +102,7 @@ static void wonLevel(void)
 static void generateLevel(uint32_t _level)
 {
     static const uint32_t  bound = sizeof(lanes)/sizeof(*lanes); 
-    uint32_t i;
+    uint32_t i,randIndex;
 
     setLevelBackground(_level);
     for (i = 0; i < bound; i++)
@@ -90,18 +110,75 @@ static void generateLevel(uint32_t _level)
         switch(lanes[i].background)
         {
             case water:
-            
+                randIndex =(uint32_t)rand()%ARRSIZE(road_lane_arquetype);
+                printf("%d\n",randIndex);
+                lanes[i].chosen_lane=&water_lane_arquetype[randIndex];
+                lanes[i].speed = (double) rand() / 1000;
+                lanes[i].index =  rand() % ARRSIZE(road_lane_arquetype[0]);
+                    
+                break;
             case road:
-            
-            case grass:
+                randIndex =(uint32_t)rand()%ARRSIZE(road_lane_arquetype);
+                printf("%d\n",randIndex);
+                lanes[i].chosen_lane=&road_lane_arquetype[randIndex];
+                lanes[i].speed = (double) rand() / 1000;
+                lanes[i].index =  rand() % ARRSIZE(road_lane_arquetype[0]);
+                break;
 
+            case grass:
+                randIndex =(uint32_t)rand()%ARRSIZE(road_lane_arquetype);
+                printf("%d\n",randIndex);
+                lanes[i].chosen_lane=&grass_lane_arquetype[randIndex];
+                lanes[i].speed = (double) rand() / 1000;
+                lanes[i].index =  rand() % ARRSIZE(road_lane_arquetype[0]);
+                
+                break;
             case finish_line:
+                randIndex =(uint32_t)rand()%ARRSIZE(road_lane_arquetype);
+                printf("%d\n",randIndex);
+                lanes[i].chosen_lane=&finish_line_lane_arquetype[randIndex];
+                lanes[i].speed = (double) rand() / 1000;
+                lanes[i].index =  rand() % ARRSIZE(road_lane_arquetype[0]);
+                break;
+                break;
+
+            default:
+                printf("Unknown background on generateLevel!\n");
+                break;
         }
     }
     
 }
 
 
+static void debugLanes(void)
+{
+    static const uint32_t  bound = sizeof(lanes)/sizeof(*lanes); 
+    uint32_t i,j;
+    printf("ARRSIZE(road_lane_arquetype)=%d\n",ARRSIZE(road_lane_arquetype));
+    printf("ARRSIZE(road_lane_arquetype[0])=%d\n",ARRSIZE(road_lane_arquetype[0]));
+    for(i=0;i<bound;++i)
+    {
+        printf("Lane %d:\n\tBackground: %s\n\tchosen_lane %p\n\tlane contents:\n",i,background_t_string_names[lanes[i].background],lanes[i].chosen_lane);
+        for(j=0;j<48;j++)
+        {
+            
+            switch(lanes[i].chosen_lane[j])
+            {
+                case none:
+                    printf(" ");
+                    break;
+                default:
+                    printf(".");
+                    break;
+            }
+
+            
+        }
+        printf("\n");
+    }
+
+}
 
 
 
