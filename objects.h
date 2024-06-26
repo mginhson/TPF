@@ -41,7 +41,8 @@ typedef struct{
     object_kind_t * chosen_lane;
     background_t background;
     double speed;
-    int32_t index;
+    uint32_t visible_lane_length;
+    int32_t needle,cell_needle;
 }lane_t;
 
 /*
@@ -70,7 +71,9 @@ typedef struct{
 }cell_t; 
 
 
-
+typedef struct{
+    int32_t cell_x,cell_y;
+}frog_t;
 
 
 

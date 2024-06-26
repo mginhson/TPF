@@ -1,6 +1,6 @@
 CC := gcc
 ALLEGRO_LIB := -lallegro #INCLUIR ACA TODO ALLEGRO!!
-CFLAGS := -Wall -Wextra
+CFLAGS := -Wall 
 OBJ_FILES := frogger.o game_logic.o objects.o frogger_state.o input.o render.o
 EXECUTABLE_NAME := frogger
 
