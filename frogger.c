@@ -8,12 +8,6 @@
 
 int main(int argc, char **argv)
 {
-    initializeGameLogic();
-    while(1)
-    {
-        nextLogicTick();
-        sleep(1);
-        //system("clear");
-    }
+    puts("frogger");
     return 0;
 }
