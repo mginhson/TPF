@@ -6,12 +6,12 @@ void menu_1 (int option){
     
     switch (option){
         case START:
-            start_game_display ();
             start_game_logic ();
             break;
         case TOP:
             show_scores ();
-            if (BACK){
+            int back = top_going_back();
+            if (back){
                 open_menu_1;
             }
             break;
@@ -29,11 +29,9 @@ void menu_2 (int option){
     
     switch (option){
         case RESUME:
-            resume_game_display ();
             resume_game_logic ();
             break;
         case RESTART:
-            start_game_display ();
             start_game_logic ();
             break;
         case QUIT:
