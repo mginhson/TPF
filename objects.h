@@ -8,6 +8,7 @@
 
 typedef enum{
     none = 0,
+    frog,
     log,
     short_log,
     long_log,
@@ -70,6 +71,10 @@ typedef struct{
     uint8_t time          :1;
 }cell_t; 
 
+typedef struct{
+    object_kind_t kind;
+    background_t background;
+}logic_cell_t;
 
 typedef struct{
     int32_t cell_x,cell_y;

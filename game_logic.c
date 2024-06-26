@@ -10,9 +10,9 @@
 
 
 //STATIC FUNCTIONS
-static void analyzeLanes(void);
+static void analyzeMap(void);
 static void analyzeRanita(void);
-static void updateLogicMatrix(void);
+static void updateLogicMap(void);
 static void generateLevel(uint32_t _level);
 static void setLevelBackground(uint32_t _level);
 static void wonLevel(void);
@@ -44,7 +44,7 @@ static const object_kind_t finish_line_lane_arquetype[][CELLS_X_MAX * 3] = {
 };
 
 
-
+static const uint32_t max_needle_bound = CELLS_X_MAX * 3 * PIXELS_PER_CELL_X;
 
 
 /*
@@ -82,48 +82,39 @@ void initializeGameLogic(void)
 void nextLogicTick(void)
 {
     getInput_stub();
-    analyzeLanes();
+    analyzeMap();
+    //debugLanes();
+    render();
 }
 
-static void analyzeLanes(void)
+static void analyzeMap(void)
 {
     static const uint32_t  bound = sizeof(lanes)/sizeof(*lanes); 
-    uint32_t i;
+    uint32_t i,j;
+    int32_t last_needle;
     
     for(i=0; i < bound; i++)
     {
         //If timed, move the needle and update the cell needle
-        if (++lanes[i].needle>=MAP_X_PIXELS_MAX)
-        {
-            lanes[i].needle = 0;
-        }
+        lanes[i].needle=(lanes[i].needle + 4) % max_needle_bound;
+        
+        last_needle = lanes[i].cell_needle;
         lanes[i].cell_needle = lanes[i].needle / PIXELS_PER_CELL_X;
+        if (last_needle != lanes[i].cell_needle) //tengo que actualizar el mapa
+        {
+            for (j=0;j < ARRSIZE(map[i]);++j)
+            {
+                map[i][j].background = lanes[i].background;
+                map[i][j].kind = lanes[i].chosen_lane[(lanes[i].cell_needle + j)%(3*CELLS_X_MAX)]; 
+            }
+        }
     }
+
+    
 }
 
 static void analyzeRanita(void)
 {
-    
-    switch(lanes[ranita.cell_y].background)
-    {
-        //If not on log or turtle, dies
-        case water:
-            break;
-            
-        //If collides with a car, dies
-        case road:
-            break;
-
-        case grass:
-            break;
-
-        //If the spot isn't populated, won, die otherwise
-        case finish_line:
-            break;
-
-        default:
-            break;    
-    }   
  
 }
 /*
@@ -150,7 +141,7 @@ static void wonLevel(void)
 static void generateLevel(uint32_t _level)
 {
     static const uint32_t  bound = sizeof(lanes)/sizeof(*lanes); 
-    uint32_t i,randIndex;
+    uint32_t i,j,randIndex;
 
     setLevelBackground(_level);
     for (i = 0; i < bound; i++)
@@ -162,7 +153,7 @@ static void generateLevel(uint32_t _level)
                 printf("%d\n",randIndex);
                 lanes[i].chosen_lane=&water_lane_arquetype[randIndex];
                 lanes[i].speed = (double) rand() / 1000;
-                lanes[i].needle =  rand() % (ARRSIZE(water_lane_arquetype[0]) * PIXELS_PER_CELL_X);
+                lanes[i].needle =  rand() % max_needle_bound;
                     
                 break;
             case road:
@@ -170,7 +161,7 @@ static void generateLevel(uint32_t _level)
                 printf("%d\n",randIndex);
                 lanes[i].chosen_lane=&road_lane_arquetype[randIndex];
                 lanes[i].speed = (double) rand() / 1000;
-                lanes[i].needle =  rand() % (ARRSIZE(road_lane_arquetype[0]) * PIXELS_PER_CELL_X);
+                lanes[i].needle =  rand() % max_needle_bound;
                 break;
 
             case grass:
@@ -178,7 +169,7 @@ static void generateLevel(uint32_t _level)
                 printf("%d\n",randIndex);
                 lanes[i].chosen_lane=&grass_lane_arquetype[randIndex];
                 lanes[i].speed = (double) rand() / 1000;
-                lanes[i].needle =  rand() % (ARRSIZE(grass_lane_arquetype[0]) * PIXELS_PER_CELL_X);
+                lanes[i].needle =  rand() % max_needle_bound;
                 
                 break;
             case finish_line:
@@ -186,13 +177,19 @@ static void generateLevel(uint32_t _level)
                 printf("%d\n",randIndex);
                 lanes[i].chosen_lane=&finish_line_lane_arquetype[randIndex];
                 lanes[i].speed = (double) rand() / 1000;
-                lanes[i].needle =  rand() % (ARRSIZE(finish_line_lane_arquetype[0]) * PIXELS_PER_CELL_X);
+                lanes[i].needle =  rand() % max_needle_bound;
                 
                 break;
 
             default:
                 printf("Unknown background on generateLevel!\n");
                 break;
+        }
+
+        for (j=0;j < ARRSIZE(map[i]);++j)
+        {
+            map[i][j].background = lanes[i].background;
+            map[i][j].kind = lanes[i].chosen_lane[(lanes[i].cell_needle + j)%ARRSIZE(lanes[i].chosen_lane)]; 
         }
     }
     
@@ -207,7 +204,7 @@ static void debugLanes(void)
     printf("ARRSIZE(road_lane_arquetype[0])=%d\n",ARRSIZE(road_lane_arquetype[0]));
     for(i=0;i<bound;++i)
     {
-        printf("Lane %d:\n\tBackground: %s\n\tneedle: %d\n\tchosen_lane %p\n\tlane contents:\n",i,background_t_string_names[lanes[i].background],lanes[i].needle,lanes[i].chosen_lane);
+        printf("Lane %d:\n\tBackground: %s\n\tneedle: %d\n\tcell_needle: %d\n\tchosen_lane %p\n\tlane contents:\n",i,background_t_string_names[lanes[i].background],lanes[i].needle,lanes[i].cell_needle,lanes[i].chosen_lane);
         for(j=0;j<48;j++)
         {
             

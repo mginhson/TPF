@@ -10,10 +10,11 @@ void render(void)
     {
         for (j =0; j < CELLS_X_MAX; j++)
         {
-            if (state_matrix[i][j].frog) printf("R");
-            else if (state_matrix[i][j].object) printf("C");
-            else printf(" ");
+            if (map[i][j].kind)printf("*");
+            else printf("_");
         }
         printf("\n");
     }
+
+    printf("\n\n\n\n");
 }
