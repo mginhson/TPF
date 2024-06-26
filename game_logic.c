@@ -121,5 +121,60 @@ void analyzeRanita(void)
 void updateLogicMatrix(void)
 {
     static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
-    uint32_t i;
+    uint32_t i,j,mid_x,mid_y,cur_cell_x,cur_cell_y,cells_width;
+
+    
+    for (i = 0; i < bound; ++i)
+    {
+        
+        switch(current_objects[i].kind)
+        {
+            case none: 
+                break;
+            
+            case log:
+            case short_log:
+            case long_log:
+            case car1:
+            case car2:
+            case car3:
+            case crocodile:
+            case snake:
+                /*
+                    Consigo pixel que denota el punto medio del objeto.
+                    Una vez con ese pixel, calculo en que parte de la matriz esta 
+                    dependiendo de cuantos pixeles ocupa cada celda
+                */ 
+                mid_x = current_objects[i].x + current_objects[i].pixels_x / 2;
+                mid_y = current_objects[i].y + current_objects[i].pixels_y / 2;
+                
+                cur_cell_x = mid_x / PIXELS_PER_CELL_X;
+                cur_cell_y = mid_y / PIXELS_PER_CELL_Y;
+
+                
+                //Ahora traduzco a celdas!!!
+
+                for (j=0;j<current_objects[i].cells_x ;++j)
+                {
+                    if(cur_cell_x+j < CELLS_X_MAX)
+                    {
+                        state_matrix[cur_cell_y][cur_cell_x+j].object = 1;
+                    }
+                }
+
+                for (j=0;j<current_objects[i].cells_y ;++j)
+                {
+                    if(cur_cell_y-j < CELLS_Y_MAX)
+                    {
+                        state_matrix[cur_cell_y-j][cur_cell_x].object = 1;
+                    }
+                }
+
+                
+
+            default:
+                printf("Unregistered .kind in updateLogicMatrix");
+                break;
+        }
+    }
 }

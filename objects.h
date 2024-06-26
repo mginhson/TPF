@@ -8,16 +8,17 @@
 
 typedef enum{
     none,
-    street,
     log,
     short_log,
     long_log,
     car1,
     car2,
     car3,
-    she_frog, 
+    female_frog, 
     turtle, 
     fly,
+    crocodile,
+    snake,
     object_kind_count,
 }object_kind_t;
 
@@ -36,8 +37,10 @@ typedef struct{
     void *sprite;
     int32_t x,y; //position
     int32_t dx,dy; //velocity
-    uint16_t pixels_x,pixels_y;
+    uint16_t pixels_x,pixels_y; //What is seen
+    uint8_t cells_x,cells_y; //how many cells it occupies, is calculates based on pixels_x|y and PIXELS_PER_CELL
 }object_t;
+
 /*
     BRIEF:  objectSize
     Returns the memory size in bytes that needs to be allocated 
