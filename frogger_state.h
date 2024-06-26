@@ -11,6 +11,7 @@
 #include "objects.h"
 #include <stdint.h>
 
+#define LANES_COUNT 16
 #define CELLS_Y_MAX 16
 #define CELLS_X_MAX 16
 #define MAX_OBJECTS 64
@@ -23,6 +24,7 @@
 //Se declara la matriz para que la lean todos los modulos que dependen de esto
 extern cell_t state_matrix[CELLS_Y_MAX][CELLS_X_MAX];
 extern object_t current_objects[MAX_OBJECTS];
+extern lane_t lanes[LANES_COUNT];
 extern object_t ranita; //behaves different from the normal objects
 
 

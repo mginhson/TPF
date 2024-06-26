@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-//hola
+#include "frogger_state.h"
+#include "game_logic.h"
+
 int main(int argc, char **argv)
 {
-    puts("frogger");
+    initializeGameLogic();
+    nextLogicTick();
+        
     return 0;
 }

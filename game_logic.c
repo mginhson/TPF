@@ -5,14 +5,34 @@
 #include "objects.h"
 #include "frogger_state.h"
 #include "input.h"
+#include "render.h"
 
-static void moveFrog(void);
-static void moveObjects(void);
+
+
 static void analyzeObjects(void);
 static void deleteObject(void);
 static int8_t addObject(object_t _obj);
 static void analyzeRanita(void);
 static void updateLogicMatrix(void);
+static void advanceLevel(void);
+static void wonLevel(void);
+static uint32_t calculatePoints(void);
+
+//STATIC GLOBAL VARIABLES
+static uint32_t level;
+
+
+
+
+
+
+void initializeGameLogic(void)
+{
+    level = 0;
+    advanceLevel();
+    return;
+}
+
 
 /*
     @BRIEF: nextLogicTick
@@ -27,14 +47,52 @@ static void updateLogicMatrix(void);
 */
 void nextLogicTick(void)
 {
-
+    analyzeRanita();
+    analyzeObjects();
+    updateLogicMatrix();
+    render();
 }
+
+/*
+    @BRIEF: Updates the score and calls advanceLevel. 
+*/
+static void wonLevel(void)
+{
+
+    advanceLevel();
+}
+
+/*
+    @BRIEF: Generates the new level:
+    -Regenerates map
+    -Places ranita at starting position
+    -Generates starting objects
+    -Updates logic matrix based on new objects and ranita
+    -Resets all level-bounded variables
+*/
+
+static void advanceLevel(void)
+{
+    static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
+    uint32_t i;
+    for (i = 0; i < bound; i++)
+    {
+        current_objects[i].kind = none;
+    }
+    ranita.dx = 0;
+    ranita.dy = 0;
+    ranita.y = ranita.pixels_y;
+    ranita.x = CELLS_X_MAX*PIXELS_PER_CELL_X / 2;
+    updateLogicMatrix();
+}
+
+
 
 /*
     @BRIEF: moveObjects
         moves the current objects based on their speed (dx,dy) param 
 */
-void moveObjects(void)
+static void moveObjects(void)
 {
     static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
     uint32_t i;
@@ -50,7 +108,7 @@ void moveObjects(void)
     @BRIEF: analyzeObjects
         if an object went out of bounds, delete it 
 */
-void analyzeObjects(void)
+static void analyzeObjects(void)
 {
     static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
     uint32_t i;
@@ -72,10 +130,10 @@ void analyzeObjects(void)
 /*
     @BRIEF: Copies the new object onto a free slot, returns 0 if succesful, -1 otherwise
 */
-int8_t addObject(object_t _obj)
+static int8_t addObject(object_t _obj)
 {
     static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
-    uint32_t i;
+    uint32_t i = 0;
     while(current_objects[i].kind != none && ++i<bound)
     {
         ;
@@ -95,7 +153,7 @@ int8_t addObject(object_t _obj)
         Gets the ranita movement, updates it's position, and analyze if a collision
         or win condition happened, and acts upon them
 */
-void analyzeRanita(void)
+static void analyzeRanita(void)
 {
     //GET INPUT HERE!!
     switch(getInput_stub())
@@ -118,7 +176,7 @@ void analyzeRanita(void)
 
 }
 
-void updateLogicMatrix(void)
+static void updateLogicMatrix(void)
 {
     static const uint32_t  bound = sizeof(current_objects)/sizeof(*current_objects); 
     uint32_t i,j,mid_x,mid_y,cur_cell_x,cur_cell_y,cells_width;
@@ -177,4 +235,12 @@ void updateLogicMatrix(void)
                 break;
         }
     }
+
+    mid_x = ranita.x / PIXELS_PER_CELL_X;
+    mid_y = ranita.y / PIXELS_PER_CELL_Y;
+    state_matrix[mid_y][mid_x].frog = 1;
+
+    
+    
 }
+

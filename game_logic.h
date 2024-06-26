@@ -14,5 +14,6 @@
     -Se encarga de eliminar objetos que salieron del mapa y agregar nuevos
 */
 void nextLogicTick(void);
+void initializeGameLogic(void);
 
 #endif

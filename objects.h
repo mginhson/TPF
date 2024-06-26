@@ -22,15 +22,12 @@ typedef enum{
     object_kind_count,
 }object_kind_t;
 
-
-
-/*
-  Todos los objetos son posicionados por sus coordenadas (x,y), las
-  cuales hacen referencia a la esquina superior izquierda del objeto
-  (x,y)-->|------------|
-          |    LOG     | 
-          |------------|
-*/
+typedef enum{
+    water,
+    road,
+    grass,
+    _background_count,    
+}background_t;
 
 typedef struct{
     object_kind_t kind;
@@ -40,6 +37,23 @@ typedef struct{
     uint16_t pixels_x,pixels_y; //What is seen
     uint8_t cells_x,cells_y; //how many cells it occupies, is calculates based on pixels_x|y and PIXELS_PER_CELL
 }object_t;
+
+typedef struct{
+    object_t objects[64];
+    background_t background;
+    double speed;
+    
+}lane_t;
+
+/*
+  Todos los objetos son posicionados por sus coordenadas (x,y), las
+  cuales hacen referencia a la esquina superior izquierda del objeto
+  (x,y)-->|------------|
+          |    LOG     | 
+          |------------|
+*/
+
+
 
 /*
     BRIEF:  objectSize
@@ -58,14 +72,6 @@ typedef struct{
 
 
 
-/*
-    BRIEF: objectCreate y objectDestroy
-    Inicializa el objeto, usando la memoria alocada por el caller. A definir los parametros iniciales
-    Destroy libera la memoria de un objeto para su eliminacion.
-*/
-
-object_t * objectCreate(void * _allocated_memory, object_kind_t _kind);
-void objectDestroy(object_t * _object_to_destroy);
 
 
 
